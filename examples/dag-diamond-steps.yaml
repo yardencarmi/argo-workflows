@@ -25,7 +25,8 @@ kind: Workflow
 metadata:
   generateName: dag-diamond-steps-
   labels:
-    key: val1
+    environment: production
+    app: nginx
 spec:
   entrypoint: diamond
   templates:
