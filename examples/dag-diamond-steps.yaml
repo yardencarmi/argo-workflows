@@ -28,8 +28,14 @@ metadata:
     environment: production
     app: nginx
 spec:
-  entrypoint: diamond
+  entrypoint: newEntrypoint
   templates:
+  - name: newEntrypoint
+    steps:
+    - - name: diamond
+        template: diamond
+      - name: diamond2
+        template: diamond2
   - name: echo
     inputs:
       parameters:
@@ -49,6 +55,28 @@ spec:
           - {name: message, value: "{{inputs.parameters.message}}{{item}}"}
         withItems: [1,2,3]
   - name: diamond
+    dag:
+      tasks:
+      - name: A
+        template: echo-thrice
+        arguments:
+          parameters: [{name: message, value: A}]
+      - name: B
+        depends: "A"
+        template: echo-thrice
+        arguments:
+          parameters: [{name: message, value: B}]
+      - name: C
+        depends: "A"
+        template: echo-thrice
+        arguments:
+          parameters: [{name: message, value: C}]
+      - name: D
+        depends: "B && C"
+        template: echo-thrice
+        arguments:
+          parameters: [{name: message, value: D}]
+  - name: diamond2
     dag:
       tasks:
       - name: A
