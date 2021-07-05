@@ -3,7 +3,7 @@ kind: CronWorkflow
 metadata:
   name: dwh-etl-daily
 spec:
-  schedule: "5 * * * *"
+  schedule: "*/5 * * * *"
   concurrencyPolicy: "Replace"
   startingDeadlineSeconds: 0
   timezone: Asia/Jerusalem
